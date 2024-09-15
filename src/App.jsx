@@ -7,13 +7,21 @@ import {
   getNotesFromLocalStorage,
   saveNotesToLocalStorage,
 } from "./utils/LocalStorage";
+import InitialData from "./data/initial.json";
 
 function App() {
   const [notes, setNotes] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    const initialNotes = getNotesFromLocalStorage();
-    setNotes(initialNotes);
+    const notes = getNotesFromLocalStorage();
+
+    if (notes.length === 0) {
+      saveNotesToLocalStorage(InitialData);
+      setNotes(InitialData);
+    } else {
+      setNotes(notes);
+    }
   }, []);
 
   const refreshNotes = () => {
@@ -35,11 +43,20 @@ function App() {
     refreshNotes();
   };
 
+  const filteredNotes = notes.filter((data) =>
+    data["title"].toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <>
-      <Header />
+      <Header setSearchQuery={setSearchQuery} searchQuery={searchQuery} />
       <Input onSave={refreshNotes} />
-      <Notes notes={notes} delate={handleDelete} archive={handleArchive} />
+      <Notes
+        // notes={notes}
+        delate={handleDelete}
+        archive={handleArchive}
+        filter={filteredNotes}
+      />
     </>
   );
 }

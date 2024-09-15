@@ -8,7 +8,7 @@ const Input = ({ onSave }) => {
     title: "",
     body: "",
     archived: false,
-    createAt: Date.now(),
+    createAt: new Date().toISOString(),
   }));
   const [remainingChars, setRemainingChars] = useState(50);
 
@@ -34,7 +34,7 @@ const Input = ({ onSave }) => {
       title: "",
       body: "",
       archived: false,
-      createAt: Date.now(),
+      createAt: new Date().toISOString(),
     });
   };
 

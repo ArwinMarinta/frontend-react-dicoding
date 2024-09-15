@@ -1,9 +1,9 @@
 import CardNotes from "./CardNotes";
 import PropTypes from "prop-types";
 
-const Notes = ({ notes, delate, archive }) => {
-  const activeNotes = notes.filter((data) => !data.archived);
-  const archivedNotes = notes.filter((data) => data.archived);
+const Notes = ({ filter, delate, archive }) => {
+  const activeNotes = filter.filter((data) => !data.archived);
+  const archivedNotes = filter.filter((data) => data.archived);
   return (
     <main className="flex w-full justify-center py-10">
       <div className="container flex flex-col">
@@ -11,9 +11,9 @@ const Notes = ({ notes, delate, archive }) => {
           <div>
             <label className="text-3xl">Catatan Aktif:</label>
             <div className="mt-6">
-              {notes.length > 0 ? (
+              {filter.length > 0 ? (
                 activeNotes.length > 0 ? (
-                  <div className="grid grid-cols-4 gap-6 w-full">
+                  <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-12 w-full">
                     {activeNotes.map((data) => (
                       <CardNotes
                         key={data.id}
@@ -37,9 +37,9 @@ const Notes = ({ notes, delate, archive }) => {
             <label className="text-3xl">Arsip:</label>
           </div>
           <div className="mt-6">
-            {notes.length > 0 ? (
+            {filter.length > 0 ? (
               archivedNotes.length > 0 ? (
-                <div className="grid grid-cols-4 gap-6 w-full">
+                <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-12 w-full">
                   {archivedNotes.map((data) => (
                     <CardNotes
                       key={data.id}
@@ -63,7 +63,7 @@ const Notes = ({ notes, delate, archive }) => {
 };
 
 Notes.propTypes = {
-  notes: PropTypes.array,
+  filter: PropTypes.array,
   delate: PropTypes.func,
   archive: PropTypes.func,
 };
