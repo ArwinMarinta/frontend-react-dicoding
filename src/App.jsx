@@ -22,9 +22,9 @@ function App() {
   };
 
   const handleDelete = (id) => {
-    deleteNotesFromLocalStorage(id); // Hapus dari localStorage
-    const updatedNotes = getNotesFromLocalStorage(); // Ambil catatan terbaru
-    setNotes(updatedNotes); // Perbarui state
+    deleteNotesFromLocalStorage(id);
+    const updatedNotes = getNotesFromLocalStorage();
+    setNotes(updatedNotes);
   };
 
   const handleArchive = (id) => {

@@ -1,7 +1,5 @@
-// import React from "react";
-
-import {} from "../utils/LocalStorage";
 import CardNotes from "./CardNotes";
+import PropTypes from "prop-types";
 
 const Notes = ({ notes, delate, archive }) => {
   const activeNotes = notes.filter((data) => !data.archived);
@@ -62,6 +60,12 @@ const Notes = ({ notes, delate, archive }) => {
       </div>
     </main>
   );
+};
+
+Notes.propTypes = {
+  notes: PropTypes.array,
+  delate: PropTypes.func,
+  archive: PropTypes.func,
 };
 
 export default Notes;

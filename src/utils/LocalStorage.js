@@ -13,17 +13,3 @@ export const deleteNotesFromLocalStorage = (id) => {
   const updatednotes = notes.filter((note) => note.id !== id);
   saveNotesToLocalStorage(updatednotes);
 };
-
-export const addStudentToLocalStorage = (notes) => {
-  const note = getNotesFromLocalStorage();
-  note.push(notes);
-  saveNotesToLocalStorage(notes);
-};
-
-export const editNotesInLocalStorage = (updatedStudent) => {
-  const students = getNotesFromLocalStorage();
-  const updatedStudents = students.map((student) =>
-    student.id === updatedStudent.id ? updatedStudent : student
-  );
-  saveNotesToLocalStorage(updatedStudents);
-};

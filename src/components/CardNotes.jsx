@@ -1,11 +1,12 @@
 // import React from "react";
 import { ConvertTime } from "../utils/format";
+import PropTypes from "prop-types";
 
 const CardNotes = ({ data, delate, archive }) => {
   return (
     <div className="flex flex-col w-full h-full  border border-black rounded-md">
       <div className="p-4 flex flex-col h-full w-full">
-        <div className="text-2xl font-bold">{data.title}</div>
+        <div className="text-2xl font-bold line-clamp-1 w-full">{data.title}</div>
         <div className="mt-2 text-base">{ConvertTime(data.createAt)}</div>
         <div className="text-base text-pretty w-full font-semibold mt-3">{data.body}</div>
       </div>
@@ -22,6 +23,12 @@ const CardNotes = ({ data, delate, archive }) => {
       </div>
     </div>
   );
+};
+
+CardNotes.propTypes = {
+  data: PropTypes.array,
+  delate: PropTypes.func,
+  archive: PropTypes.func,
 };
 
 export default CardNotes;

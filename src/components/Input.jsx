@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { getNotesFromLocalStorage, saveNotesToLocalStorage } from "../utils/LocalStorage";
-import { useRefresh } from "../hooks/useRefresh";
+import PropTypes from "prop-types";
 
 const Input = ({ onSave }) => {
   const [form, setForm] = useState(() => ({
@@ -10,25 +10,25 @@ const Input = ({ onSave }) => {
     archived: false,
     createAt: Date.now(),
   }));
+  const [remainingChars, setRemainingChars] = useState(50);
 
   const handleSave = (e) => {
     e.preventDefault();
     const notes = getNotesFromLocalStorage();
 
     if (notes.length > 0) {
-      // Jika ada catatan sebelumnya, buat ID baru
       const id = Math.max(0, ...notes.map((s) => s.id)) + 1;
       const newNote = { ...form, id };
       const updatedNotes = [...notes, newNote];
       saveNotesToLocalStorage(updatedNotes);
     } else {
-      // Jika belum ada catatan, simpan catatan pertama
       saveNotesToLocalStorage([form]);
     }
 
     onSave();
 
-    // Reset form setelah penyimpanan
+    setRemainingChars(50);
+
     setForm({
       id: 0,
       title: "",
@@ -38,12 +38,20 @@ const Input = ({ onSave }) => {
     });
   };
 
+  const handleTitleChange = (e) => {
+    const input = e.target.value;
+    if (input.length <= 50) {
+      setForm({ ...form, title: input });
+      setRemainingChars(50 - input.length);
+    }
+  };
+
   return (
     <main className="flex w-full justify-center py-10">
       <div className="container w-[50%]">
         <section id="section-1" className="flex flex-col">
           <h2 className="text-4xl">Buat Catatan</h2>
-          <p className="flex justify-end mt-4">Sisa Karakter:</p>
+          <p className="flex justify-end mt-4">Sisa Karakter: {remainingChars}</p>
         </section>
         <form className="flex flex-col mt-4 gap-4" onSubmit={handleSave}>
           <input
@@ -53,9 +61,7 @@ const Input = ({ onSave }) => {
             placeholder="Ini adalah judul..."
             required
             value={form.title}
-            onChange={(e) => {
-              setForm({ ...form, title: e.target.value });
-            }}
+            onChange={handleTitleChange}
           />
 
           <textarea
@@ -79,6 +85,10 @@ const Input = ({ onSave }) => {
       </div>
     </main>
   );
+};
+
+Input.propTypes = {
+  onSave: PropTypes.func,
 };
 
 export default Input;
